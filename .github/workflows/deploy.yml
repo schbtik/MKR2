@@ -11,25 +11,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
+        
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.9'
-
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Django tests
+    - name: Install Heroku CLI
       run: |
-        python manage.py test
+        curl https://cli-assets.heroku.com/install.sh | sh
 
     - name: Deploy to Heroku
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
         heroku git:remote -a your-heroku-app-name
-        git push heroku develop:main
-
+        git push heroku develop
